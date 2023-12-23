@@ -1,0 +1,7 @@
+-- Consulta para obter informações sobre a locação e devolução de um carro
+SELECT Locacao.idLocacao, Carro.modelo, UnidadeFranquia.nomeUnidade AS unidadeLocacao, Locacao.localLocacao, UnidadeFranquiaDevolucao.nomeUnidade AS unidadeDevolucao, Locacao.localDevolucao
+FROM Locacao
+JOIN Carro ON Locacao.idCarro = Carro.idCarro
+JOIN UnidadeFranquia ON Locacao.idUnidadeLocacao = UnidadeFranquia.idUnidade
+JOIN UnidadeFranquia AS UnidadeFranquiaDevolucao ON Locacao.idUnidadeDevolucao = UnidadeFranquiaDevolucao.idUnidade
+WHERE Locacao.idLocacao = 3;

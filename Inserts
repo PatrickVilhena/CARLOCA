@@ -1,0 +1,5 @@
+INSERT INTO Montadora (idMontadora, nomeMontadora) VALUES (1, 'Toyota');
+INSERT INTO Cor (idCor, nomeCor) VALUES (1, 'Azul');
+INSERT INTO Categoria (idCategoria, nomeCategoria) VALUES (1, 'Sedan');
+INSERT INTO Carro (idCarro, idMontadora, idCor, idCategoria, modelo, versao) VALUES (1, 1, 1, 1, 'Camry', '2023');
+INSERT INTO ModalidadeLocacao (idModalidade, nomeModalidade) VALUES (2, 'Semanal');

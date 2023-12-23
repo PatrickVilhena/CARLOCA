@@ -1,0 +1,113 @@
+CREATE DATABASE carloca;
+
+USE carloca;
+
+CREATE TABLE Montadora (
+    idMontadora INT PRIMARY KEY,
+    nomeMontadora VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Cor (
+    idCor INT PRIMARY KEY,
+    nomeCor VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Categoria (
+    idCategoria INT PRIMARY KEY,
+    nomeCategoria VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Carro (
+    idCarro INT PRIMARY KEY,
+    idMontadora INT,
+    idCor INT,
+    idCategoria INT,
+    modelo VARCHAR(255) NOT NULL,
+    versao VARCHAR(255) NOT NULL,
+    FOREIGN KEY (idMontadora) REFERENCES Montadora(idMontadora),
+    FOREIGN KEY (idCor) REFERENCES Cor(idCor),
+    FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria)
+);
+
+CREATE TABLE Cliente (
+    idCliente INT PRIMARY KEY,
+    nomeCliente VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Locacao (
+    idLocacao INT PRIMARY KEY,
+    idCarro INT,
+    idCliente INT,
+    dataLocacao DATE NOT NULL,
+    dataDevolucao DATE,
+    quilometragemInicial INT,
+    quilometragemFinal INT,
+    localLocacao VARCHAR(255) NOT NULL,
+    localDevolucao VARCHAR(255),
+    FOREIGN KEY (idCarro) REFERENCES Carro(idCarro),
+    FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente),
+    UNIQUE (idCarro, dataLocacao),
+    CHECK (dataDevolucao >= dataLocacao)
+);
+
+
+INSERT INTO Cor (idCor, nomeCor) VALUES
+    (1, 'Branco'),
+    (2, 'Preto'),
+    (3, 'Prata');
+
+
+INSERT INTO Categoria (idCategoria, nomeCategoria) VALUES
+    (1, 'Hatch'),
+    (2, 'Sedan Compacto'),
+    (3, 'Sedan Médio'),
+    (4, 'SUV');
+
+
+INSERT INTO Cliente (idCliente, nomeCliente) VALUES
+    (1, 'Patrick'),
+    (2, 'Lucas'),
+    (3, 'Carol');
+
+-- Adicionando Unidades da Franquia
+-- Supondo que existam várias unidades da franquia CARLOCA
+-- Se houver informações específicas sobre as unidades, pode-se ajustar essa tabela
+CREATE TABLE UnidadeFranquia (
+    idUnidade INT PRIMARY KEY,
+    nomeUnidade VARCHAR(255) NOT NULL
+);
+
+INSERT INTO UnidadeFranquia (idUnidade, nomeUnidade) VALUES
+    (1, 'Santa Cruz da Serra'),
+    (2, 'Lote 15'),
+    (3, 'xerem');
+
+CREATE TABLE ModalidadeLocacao (
+    idModalidade INT PRIMARY KEY,
+    nomeModalidade VARCHAR(255) NOT NULL
+);
+
+INSERT INTO ModalidadeLocacao (idModalidade, nomeModalidade) VALUES
+    (1, 'Diária');
+
+
+ALTER TABLE Locacao
+ADD COLUMN idUnidadeLocacao INT,
+ADD COLUMN idUnidadeDevolucao INT,
+ADD COLUMN idModalidadeLocacao INT;
+
+
+CREATE TABLE HistoricoQuilometragem (
+    idHistorico INT PRIMARY KEY,
+    idCarro INT,
+    idCliente INT,
+    quilometragemAtual INT,
+    dataRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idCarro) REFERENCES Carro(idCarro),
+    FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente)
+);
+
+INSERT INTO Montadora (idMontadora, nomeMontadora) VALUES (1, 'Toyota');
+INSERT INTO Cor (idCor, nomeCor) VALUES (1, 'Azul');
+INSERT INTO Categoria (idCategoria, nomeCategoria) VALUES (1, 'Sedan');
+INSERT INTO Carro (idCarro, idMontadora, idCor, idCategoria, modelo, versao) VALUES (1, 1, 1, 1, 'Camry', '2023');
